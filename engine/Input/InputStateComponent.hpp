@@ -7,12 +7,12 @@ namespace x2d
 
 struct alignas(16) InputStateComponent
 {
-    bool moveLeft{false};
-    bool moveRight{false};
-    bool moveUp{false};
-    bool moveDown{false};
-    bool action{false};
-    Vector2 mousePosition{0.0f, 0.0f};
+    bool moveLeft;
+    bool moveRight;
+    bool moveUp;
+    bool moveDown;
+    bool action;
+    Vector2 mousePosition;
 };
 static_assert(sizeof(InputStateComponent) <= 64);
 
