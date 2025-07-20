@@ -72,7 +72,7 @@ public:
         return m_Dense[denseIndex];
     }
 
-    void Remove(Entity entity) override
+    void Remove(Entity entity)
     {
         const std::uint32_t index = GetIndex(entity);
         if (index >= m_Sparse.size())

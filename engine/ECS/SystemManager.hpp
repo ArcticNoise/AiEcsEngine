@@ -17,7 +17,7 @@ public:
     TSystem& RegisterSystem(const Signature& signature, Args&&... args)
     {
         auto sys = std::make_unique<TSystem>(std::forward<Args>(args)...);
-        m_Systems.push_back({std::move(sys), signature, {}});
+        m_Systems.push_back({std::move(sys), signature, {}, {}});
         return *static_cast<TSystem*>(m_Systems.back().system.get());
     }
 
