@@ -21,7 +21,7 @@ public:
     void DestroyEntity(Entity entity);
 
     template<class TComponent>
-    TComponent& AddComponent(Entity entity, const typename ComponentStorage<TComponent>::Stored& component)
+    typename ComponentStorage<TComponent>::Stored& AddComponent(Entity entity, const typename ComponentStorage<TComponent>::Stored& component)
     {
         auto& storage = GetOrCreateStorage<TComponent>();
         m_Signatures[GetIndex(entity)].set(ComponentTypeId<TComponent>());
@@ -49,6 +49,9 @@ public:
 
     [[nodiscard]] const std::vector<Signature>& GetSignatures() const;
     [[nodiscard]] std::uint16_t GetGenerationForIndex(std::uint32_t index) const;
+
+    [[nodiscard]] SystemManager& GetSystemManager();
+    [[nodiscard]] const SystemManager& GetSystemManager() const;
 
     void EndFrame();
 

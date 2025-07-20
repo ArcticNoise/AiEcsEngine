@@ -41,6 +41,16 @@ std::uint16_t World::GetGenerationForIndex(std::uint32_t index) const
     return m_EntityManager.GetGenerationForIndex(index);
 }
 
+SystemManager& World::GetSystemManager()
+{
+    return m_SystemManager;
+}
+
+const SystemManager& World::GetSystemManager() const
+{
+    return m_SystemManager;
+}
+
 void World::EndFrame()
 {
     for (auto& [id, storage] : m_Storages)

@@ -7,10 +7,10 @@ namespace x2d
 
 struct alignas(16) TransformComponent
 {
-    float x{0.0f};
-    float y{0.0f};
-    float rotation{0.0f};
-    float scale{1.0f};
+    float x;
+    float y;
+    float rotation;
+    float scale;
 };
 static_assert(sizeof(TransformComponent) <= 64);
 
