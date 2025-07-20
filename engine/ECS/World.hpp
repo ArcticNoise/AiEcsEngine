@@ -47,6 +47,20 @@ public:
         return storage != nullptr && storage->Has(entity);
     }
 
+    template<class TComponent>
+    TComponent& GetComponent(Entity entity)
+    {
+        auto* storage = GetStorage<TComponent>();
+        return storage->Get(entity);
+    }
+
+    template<class TComponent>
+    const TComponent& GetComponent(Entity entity) const
+    {
+        const auto* storage = GetStorage<TComponent>();
+        return storage->Get(entity);
+    }
+
     [[nodiscard]] const std::vector<Signature>& GetSignatures() const;
     [[nodiscard]] std::uint16_t GetGenerationForIndex(std::uint32_t index) const;
 

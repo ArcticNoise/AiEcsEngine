@@ -12,9 +12,9 @@ public:
     Application() = default;
 
     template<class TSystem, class... Args>
-    TSystem& RegisterSystem(const Signature& signature, Args&&... args)
+    TSystem& RegisterSystem(ESystemPhase phase, const Signature& signature, Args&&... args)
     {
-        return m_World.GetSystemManager().RegisterSystem<TSystem>(signature, std::forward<Args>(args)...);
+        return m_World.GetSystemManager().RegisterSystem<TSystem>(phase, signature, std::forward<Args>(args)...);
     }
 
     void Update();
