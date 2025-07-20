@@ -39,7 +39,7 @@ void EntityManager::DestroyEntity(Entity entity)
 bool EntityManager::IsAlive(Entity entity) const
 {
     const std::uint32_t index = GetIndex(entity);
-    const std::uint16_t generation = GetGeneration(entity);
+    const std::uint16_t generation = static_cast<std::uint16_t>(GetGeneration(entity));
     return index < m_Generations.size() && m_Generations[index] == generation;
 }
 
