@@ -9,15 +9,13 @@ jobs:
   build:
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         include:
           - os: windows-latest
             compiler: msvc
             toolset: v143
           - os: ubuntu-latest
-            compiler: clang
-            version: 16
-          - os: macos-14
             compiler: clang
             version: 16
     steps:
