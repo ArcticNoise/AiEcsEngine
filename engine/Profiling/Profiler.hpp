@@ -34,6 +34,10 @@ class Profiler {
     static void Flush() {
         if (s_File != nullptr) {
             std::fflush(s_File);
+            if (s_File != stdout) {
+                std::fclose(s_File);
+                s_File = nullptr;
+            }
         }
     }
 
