@@ -7,8 +7,10 @@ namespace x2d
 
 void SystemManager::BuildViews(const World& world)
 {
+    m_World = const_cast<World*>(&world);
     for (auto& entry : m_Systems)
     {
+        entry.system->SetWorld(m_World);
         entry.entityBuffer.clear();
         const auto& signatures = world.GetSignatures();
         entry.entityBuffer.reserve(signatures.size());

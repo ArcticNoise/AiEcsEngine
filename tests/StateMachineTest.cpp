@@ -1,6 +1,7 @@
 #include <catch2/catch_test_macros.hpp>
 
 #include "Application/Application.hpp"
+#include "ECS/SystemManager.hpp"
 
 using namespace x2d;
 
@@ -74,7 +75,7 @@ TEST_CASE("Application update order", "[fsm]")
     Application app;
     auto& sm = app.GetStateMachine();
     sm.PushState(std::make_unique<TrackingState>("A", log));
-    app.RegisterSystem<LogSystem>({}, log);
+    app.RegisterSystem<LogSystem>(ESystemPhase::eSystemPhase_Update, {}, log);
 
     app.Update();
 

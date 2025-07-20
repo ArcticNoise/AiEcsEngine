@@ -1,4 +1,6 @@
 #include "Application.hpp"
+#include "Platform/TimeSystem.hpp"
+#include "ECS/SystemManager.hpp"
 
 namespace x2d
 {
@@ -6,8 +8,33 @@ namespace x2d
 void Application::Update()
 {
     m_StateMachine.Tick();
-    m_World.GetSystemManager().BuildViews(m_World);
-    m_World.GetSystemManager().ForEachSystem([](ISystem& sys, const View& view) { sys.Update(view); });
+    auto& sm = m_World.GetSystemManager();
+    sm.BuildViews(m_World);
+
+    auto* timeSys = sm.GetSystem<TimeSystem>();
+    if (timeSys != nullptr)
+    {
+        timeSys->Update({});
+    }
+
+    sm.ForEachSystemInPhase(ESystemPhase::eSystemPhase_Init, [](ISystem& sys, const View& view) { sys.Update(view); });
+
+    while (timeSys != nullptr && timeSys->ShouldRunFixedUpdate())
+    {
+        sm.BuildViews(m_World);
+        sm.ForEachSystemInPhase(ESystemPhase::eSystemPhase_FixedUpdate, [](ISystem& sys, const View& view) { sys.Update(view); });
+        timeSys->AdvanceFixedUpdate();
+    }
+
+    sm.BuildViews(m_World);
+    sm.ForEachSystemInPhase(ESystemPhase::eSystemPhase_Update, [](ISystem& sys, const View& view) { sys.Update(view); });
+
+    sm.BuildViews(m_World);
+    sm.ForEachSystemInPhase(ESystemPhase::eSystemPhase_LateUpdate, [](ISystem& sys, const View& view) { sys.Update(view); });
+
+    sm.BuildViews(m_World);
+    sm.ForEachSystemInPhase(ESystemPhase::eSystemPhase_Render, [](ISystem& sys, const View& view) { sys.Update(view); });
+
     m_World.EndFrame();
 }
 
