@@ -27,3 +27,14 @@ target_include_directories(x2d PUBLIC engine)
 x2d_enable_strict_warnings(x2d)
 
 enable_testing()
+
+FetchContent_Declare(catch2
+    GIT_REPOSITORY https://github.com/catchorg/Catch2.git
+    GIT_TAG v3.5.3)
+FetchContent_MakeAvailable(catch2)
+
+file(GLOB TEST_SRC CONFIGURE_DEPENDS tests/*Test.cpp)
+add_executable(x2d_tests ${TEST_SRC})
+target_link_libraries(x2d_tests PRIVATE Catch2::Catch2WithMain x2d)
+x2d_enable_strict_warnings(x2d_tests)
+add_test(NAME x2d_tests COMMAND x2d_tests)
