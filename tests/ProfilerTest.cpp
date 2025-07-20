@@ -14,7 +14,12 @@ TEST_CASE("Profiler writes csv") {
     }
     Profiler::SetEnabled(false);
     Profiler::Flush();
-    FILE *f = std::fopen(path, "r");
+    FILE *f = nullptr;
+#ifdef _MSC_VER
+    fopen_s(&f, path, "r");
+#else
+    f = std::fopen(path, "r");
+#endif
     REQUIRE(f != nullptr);
     char buffer[64];
     REQUIRE(std::fgets(buffer, sizeof(buffer), f) != nullptr); // header

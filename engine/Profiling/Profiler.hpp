@@ -15,7 +15,13 @@ class Profiler {
         if (s_File != nullptr && s_File != stdout) {
             std::fclose(s_File);
         }
+#ifdef _MSC_VER
+        FILE *f = nullptr;
+        fopen_s(&f, path, "w");
+        s_File = f;
+#else
         s_File = std::fopen(path, "w");
+#endif
         if (s_File != nullptr) {
             std::fprintf(s_File, "scope,duration_ms\n");
         }
