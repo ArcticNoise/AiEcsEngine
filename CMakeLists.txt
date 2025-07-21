@@ -17,7 +17,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 include(cmake/StrictFlags.cmake)
 include(FetchContent)
 
-# Raylib
+#Raylib
 FetchContent_Declare(raylib
     GIT_REPOSITORY https://github.com/raysan5/raylib.git
     GIT_TAG 5.5)
@@ -60,3 +60,5 @@ target_link_libraries(x2d_tests PRIVATE Catch2::Catch2WithMain x2d)
 x2d_enable_strict_warnings(x2d_tests)
 target_compile_definitions(x2d_tests PRIVATE X2D_PLATFORM_${X2D_PLATFORM_UPPER})
 add_test(NAME x2d_tests COMMAND x2d_tests)
+
+add_subdirectory(examples)
