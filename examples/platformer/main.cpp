@@ -10,46 +10,44 @@
 #include "examples/platformer/MovementSystem.hpp"
 #include "examples/platformer/TileMapSystem.hpp"
 
-using namespace x2d;
-using namespace platformer;
-
 int main() {
-    Application app;
-    auto &world = app.GetWorld();
+    x2d::Application app;
+    x2d::World &world = app.GetWorld();
 
-    Signature windowSig{};
-    app.RegisterSystem<WindowSystem>(ESystemPhase::eSystemPhase_Init, windowSig, 640, 480,
-                                     std::string("Platformer"));
+    x2d::Signature windowSig{};
+    app.RegisterSystem<x2d::WindowSystem>(x2d::ESystemPhase::eSystemPhase_Init, windowSig, 640, 480,
+                                          std::string("Platformer"));
 
-    Signature timeSig{};
-    app.RegisterSystem<TimeSystem>(ESystemPhase::eSystemPhase_Init, timeSig);
+    x2d::Signature timeSig{};
+    app.RegisterSystem<x2d::TimeSystem>(x2d::ESystemPhase::eSystemPhase_Init, timeSig);
 
-    Signature inputSig;
-    inputSig.set(ComponentTypeId<InputStateComponent>());
-    app.RegisterSystem<InputSystem>(ESystemPhase::eSystemPhase_Update, inputSig);
+    x2d::Signature inputSig;
+    inputSig.set(x2d::ComponentTypeId<x2d::InputStateComponent>());
+    app.RegisterSystem<x2d::InputSystem>(x2d::ESystemPhase::eSystemPhase_Update, inputSig);
 
-    Signature moveSig;
-    moveSig.set(ComponentTypeId<TransformComponent>());
-    moveSig.set(ComponentTypeId<InputStateComponent>());
-    moveSig.set(ComponentTypeId<PlayerComponent>());
-    app.RegisterSystem<MovementSystem>(ESystemPhase::eSystemPhase_Update, moveSig);
+    x2d::Signature moveSig;
+    moveSig.set(x2d::ComponentTypeId<x2d::TransformComponent>());
+    moveSig.set(x2d::ComponentTypeId<x2d::InputStateComponent>());
+    moveSig.set(x2d::ComponentTypeId<platformer::PlayerComponent>());
+    app.RegisterSystem<platformer::MovementSystem>(x2d::ESystemPhase::eSystemPhase_Update, moveSig);
 
-    Signature camSig;
-    camSig.set(ComponentTypeId<TransformComponent>());
-    camSig.set(ComponentTypeId<CameraFollowComponent>());
-    auto &camSys =
-        app.RegisterSystem<CameraFollowSystem>(ESystemPhase::eSystemPhase_Update, camSig);
+    x2d::Signature camSig;
+    camSig.set(x2d::ComponentTypeId<x2d::TransformComponent>());
+    camSig.set(x2d::ComponentTypeId<platformer::CameraFollowComponent>());
+    auto &camSys = app.RegisterSystem<platformer::CameraFollowSystem>(
+        x2d::ESystemPhase::eSystemPhase_Update, camSig);
 
-    Signature mapSig;
-    mapSig.set(ComponentTypeId<TransformComponent>());
-    mapSig.set(ComponentTypeId<TileMapComponent>());
-    app.RegisterSystem<TileMapSystem>(ESystemPhase::eSystemPhase_Render, mapSig, camSys);
+    x2d::Signature mapSig;
+    mapSig.set(x2d::ComponentTypeId<x2d::TransformComponent>());
+    mapSig.set(x2d::ComponentTypeId<platformer::TileMapComponent>());
+    app.RegisterSystem<platformer::TileMapSystem>(x2d::ESystemPhase::eSystemPhase_Render, mapSig,
+                                                  camSys);
 
-    Entity player = world.CreateEntity();
-    world.AddComponent<TransformComponent>(player, {32.0f, 32.0f, 0.0f, 1.0f});
-    world.AddComponent<InputStateComponent>(player, {});
-    world.AddComponent<PlayerComponent>(player, {});
-    world.AddComponent<CameraFollowComponent>(player, {0.0f, 0.0f});
+    x2d::Entity player = world.CreateEntity();
+    world.AddComponent<x2d::TransformComponent>(player, {32.0f, 32.0f, 0.0f, 1.0f});
+    world.AddComponent<x2d::InputStateComponent>(player, {});
+    world.AddComponent<platformer::PlayerComponent>(player, {});
+    world.AddComponent<platformer::CameraFollowComponent>(player, {0.0f, 0.0f});
 
     static const int mapWidth = 10;
     static const int mapHeight = 8;
@@ -58,19 +56,19 @@ int main() {
         0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0,
         0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
 
-    Entity map = world.CreateEntity();
-    world.AddComponent<TransformComponent>(map, {0.0f, 0.0f, 0.0f, 1.0f});
-    world.AddComponent<TileMapComponent>(map, {mapData, mapWidth, mapHeight, 32});
+    x2d::Entity map = world.CreateEntity();
+    world.AddComponent<x2d::TransformComponent>(map, {0.0f, 0.0f, 0.0f, 1.0f});
+    world.AddComponent<platformer::TileMapComponent>(map, {mapData, mapWidth, mapHeight, 32});
 
-    app.ChangeState(EAppState::eAppState_MainMenu);
+    app.ChangeState(x2d::EAppState::eAppState_MainMenu);
 
     int frame = 0;
     while (!WindowShouldClose() && frame < 180) {
         if (frame == 60) {
-            app.ChangeState(EAppState::eAppState_Pause);
+            app.ChangeState(x2d::EAppState::eAppState_Pause);
         }
         if (frame == 120) {
-            app.ChangeState(EAppState::eAppState_Shutdown);
+            app.ChangeState(x2d::EAppState::eAppState_Shutdown);
         }
         app.Update();
         ++frame;

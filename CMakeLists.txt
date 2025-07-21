@@ -20,7 +20,7 @@ include(FetchContent)
 #Raylib
 FetchContent_Declare(raylib
     GIT_REPOSITORY https://github.com/raysan5/raylib.git
-    GIT_TAG 5.5)
+    GIT_TAG 5.1.0)
 set(BUILD_SHARED_LIBS OFF)
 if(X2D_PLATFORM_UPPER STREQUAL "WEB")
     set(PLATFORM_WEB ON)
