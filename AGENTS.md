@@ -68,7 +68,6 @@ target_include_directories(x2d PUBLIC engine)
 ```
 windows-latest  msvc  v143
 ubuntu-latest   clang 16
-macos-14        clang 16
 ```
 
 Each job: `cmake -B build -S . -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && ctest --output-on-failure`.
