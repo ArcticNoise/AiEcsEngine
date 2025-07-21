@@ -3,17 +3,15 @@
 #include <cstdio>
 #include <filesystem>
 
-using namespace x2d;
-
 TEST_CASE("Profiler writes csv") {
     const char *path = "profile.csv";
-    Profiler::SetOutput(path);
-    Profiler::SetEnabled(true);
+    x2d::Profiler::SetOutput(path);
+    x2d::Profiler::SetEnabled(true);
     {
         X2D_PROFILE_SCOPE("test");
     }
-    Profiler::SetEnabled(false);
-    Profiler::Flush();
+    x2d::Profiler::SetEnabled(false);
+    x2d::Profiler::Flush();
     FILE *f = nullptr;
 #ifdef _MSC_VER
     fopen_s(&f, path, "r");

@@ -7,14 +7,12 @@
 #include "ECS/DamageEventComponent.hpp"
 #include "ECS/OneFrame.hpp"
 
-using namespace x2d;
-
 TEST_CASE("Entity creation/destruction performance", "[ecs]")
 {
-    World world;
+    x2d::World world;
     constexpr std::size_t count = 1'000'000;
     auto start = std::chrono::high_resolution_clock::now();
-    std::vector<Entity> entities;
+    std::vector<x2d::Entity> entities;
     entities.reserve(count);
     for (std::size_t i = 0; i < count; ++i)
     {
@@ -31,35 +29,35 @@ TEST_CASE("Entity creation/destruction performance", "[ecs]")
 
 TEST_CASE("Signature updates", "[ecs]")
 {
-    World world;
-    Entity e = world.CreateEntity();
-    world.AddComponent<TransformComponent>(e, {});
-    world.AddComponent<VelocityComponent>(e, {});
-    const auto& sig = world.GetSignatures()[GetIndex(e)];
-    REQUIRE(sig.test(ComponentTypeId<TransformComponent>()));
-    REQUIRE(sig.test(ComponentTypeId<VelocityComponent>()));
+    x2d::World world;
+    x2d::Entity e = world.CreateEntity();
+    world.AddComponent<x2d::TransformComponent>(e, {});
+    world.AddComponent<x2d::VelocityComponent>(e, {});
+    const auto& sig = world.GetSignatures()[x2d::GetIndex(e)];
+    REQUIRE(sig.test(x2d::ComponentTypeId<x2d::TransformComponent>()));
+    REQUIRE(sig.test(x2d::ComponentTypeId<x2d::VelocityComponent>()));
 }
 
 TEST_CASE("Swap erase integrity", "[ecs]")
 {
-    World world;
-    Entity e1 = world.CreateEntity();
-    Entity e2 = world.CreateEntity();
-    world.AddComponent<TransformComponent>(e1, {1.0f,2.0f,0.0f,1.0f});
-    world.AddComponent<TransformComponent>(e2, {3.0f,4.0f,0.0f,1.0f});
+    x2d::World world;
+    x2d::Entity e1 = world.CreateEntity();
+    x2d::Entity e2 = world.CreateEntity();
+    world.AddComponent<x2d::TransformComponent>(e1, {1.0f,2.0f,0.0f,1.0f});
+    world.AddComponent<x2d::TransformComponent>(e2, {3.0f,4.0f,0.0f,1.0f});
 
-    world.RemoveComponent<TransformComponent>(e1);
-    REQUIRE_FALSE(world.HasComponent<TransformComponent>(e1));
-    REQUIRE(world.HasComponent<TransformComponent>(e2));
+    world.RemoveComponent<x2d::TransformComponent>(e1);
+    REQUIRE_FALSE(world.HasComponent<x2d::TransformComponent>(e1));
+    REQUIRE(world.HasComponent<x2d::TransformComponent>(e2));
 }
 
 TEST_CASE("OneFrame clearing", "[ecs]")
 {
-    World world;
-    Entity e = world.CreateEntity();
-    world.AddComponent<OneFrame<DamageEventComponent>>(e, {10});
-    REQUIRE(world.HasComponent<OneFrame<DamageEventComponent>>(e));
+    x2d::World world;
+    x2d::Entity e = world.CreateEntity();
+    world.AddComponent<x2d::OneFrame<x2d::DamageEventComponent>>(e, {10});
+    REQUIRE(world.HasComponent<x2d::OneFrame<x2d::DamageEventComponent>>(e));
     world.EndFrame();
-    REQUIRE_FALSE(world.HasComponent<OneFrame<DamageEventComponent>>(e));
+    REQUIRE_FALSE(world.HasComponent<x2d::OneFrame<x2d::DamageEventComponent>>(e));
 }
 

@@ -3,12 +3,10 @@
 #include "Application/Application.hpp"
 #include "ECS/SystemManager.hpp"
 
-using namespace x2d;
-
 namespace
 {
 
-struct TrackingState : IState
+struct TrackingState : x2d::IState
 {
     std::string name;
     std::vector<std::string>& log;
@@ -38,11 +36,11 @@ struct TrackingState : IState
     }
 };
 
-struct LogSystem : ISystem
+struct LogSystem : x2d::ISystem
 {
     std::vector<std::string>& log;
     explicit LogSystem(std::vector<std::string>& l) : log(l) {}
-    void Update(const View&) override { log.push_back("update"); }
+    void Update(const x2d::View&) override { log.push_back("update"); }
 };
 
 } // namespace
@@ -50,7 +48,7 @@ struct LogSystem : ISystem
 TEST_CASE("StateMachine transitions", "[fsm]")
 {
     std::vector<std::string> log;
-    StateMachine sm;
+    x2d::StateMachine sm;
 
     sm.PushState(std::make_unique<TrackingState>("Boot", log));
     sm.PushState(std::make_unique<TrackingState>("Menu", log));
@@ -72,10 +70,10 @@ TEST_CASE("StateMachine transitions", "[fsm]")
 TEST_CASE("Application update order", "[fsm]")
 {
     std::vector<std::string> log;
-    Application app;
+    x2d::Application app;
     auto& sm = app.GetStateMachine();
     sm.PushState(std::make_unique<TrackingState>("A", log));
-    app.RegisterSystem<LogSystem>(ESystemPhase::eSystemPhase_Update, {}, log);
+    app.RegisterSystem<LogSystem>(x2d::ESystemPhase::eSystemPhase_Update, {}, log);
 
     app.Update();
 
