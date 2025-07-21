@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.29)
+cmake_minimum_required(VERSION 3.28.3)
 project(X2D LANGUAGES CXX VERSION 1.0.0)
 
 set(SUPPORTED_PLATFORMS DESKTOP WEB PS XBOX SWITCH)
