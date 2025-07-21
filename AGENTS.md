@@ -48,7 +48,7 @@ include(cmake/StrictFlags.cmake) # enables -Wall -Wextra -Werror etc.
 include(FetchContent)
 
 # Raylib
-FetchContent_Declare(raylib GIT_REPOSITORY https://github.com/raysan5/raylib.git GIT_TAG 5.1.0)
+FetchContent_Declare(raylib GIT_REPOSITORY https://github.com/raysan5/raylib.git GIT_TAG 5.5)
 set(BUILD_SHARED_LIBS OFF)
 set(PLATFORM_DESKTOP ON)
 FetchContent_MakeAvailable(raylib)
