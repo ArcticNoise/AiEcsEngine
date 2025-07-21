@@ -249,6 +249,7 @@ Implementation details:
 - Use `nullptr`, not `NULL`.
 - Use range‑based `for` when possible.
 - Do not cast away `const` unless interfacing with const‑incorrect API.
+- Use Allman (BSD) style for braces
 
 ---
 
