@@ -2,27 +2,35 @@
 
 #include "ECS/World.hpp"
 
-namespace platformer {
+namespace platformer
+{
 
-void MovementSystem::Update(const x2d::View &view) {
-    if (m_World == nullptr) {
+void MovementSystem::Update(const x2d::View& view)
+{
+    if (m_World == nullptr)
+    {
         return;
     }
-    for (std::size_t i = 0; i < view.count; ++i) {
+    for (std::size_t i = 0; i < view.count; ++i)
+    {
         const x2d::Entity e = view.entities[i];
-        auto &transform = m_World->GetComponent<x2d::TransformComponent>(e);
-        auto &input = m_World->GetComponent<x2d::InputStateComponent>(e);
+        auto& transform = m_World->GetComponent<x2d::TransformComponent>(e);
+        auto& input = m_World->GetComponent<x2d::InputStateComponent>(e);
         const float speed = 2.0f;
-        if (input.moveLeft) {
+        if (input.moveLeft)
+        {
             transform.x -= speed;
         }
-        if (input.moveRight) {
+        if (input.moveRight)
+        {
             transform.x += speed;
         }
-        if (input.moveUp) {
+        if (input.moveUp)
+        {
             transform.y -= speed;
         }
-        if (input.moveDown) {
+        if (input.moveDown)
+        {
             transform.y += speed;
         }
     }

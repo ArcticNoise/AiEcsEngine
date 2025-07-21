@@ -2,19 +2,24 @@
 
 #include <cstddef>
 
-namespace platformer {
+namespace platformer
+{
 
-struct alignas(16) PlayerComponent {};
+struct alignas(16) PlayerComponent
+{
+};
 static_assert(sizeof(PlayerComponent) <= 64);
 
-struct alignas(16) CameraFollowComponent {
+struct alignas(16) CameraFollowComponent
+{
     float offsetX;
     float offsetY;
 };
 static_assert(sizeof(CameraFollowComponent) <= 64);
 
-struct alignas(16) TileMapComponent {
-    const int *tiles;
+struct alignas(16) TileMapComponent
+{
+    const int* tiles;
     int width;
     int height;
     int tileSize;
