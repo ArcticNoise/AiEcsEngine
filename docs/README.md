@@ -63,6 +63,68 @@ This guide covers the basic setup and usage of **X2D** – a cross-platform 2D g
    }
    ```
 
+## Creating and Registering Components
+
+To define a custom component, declare a plain struct aligned to 16 bytes and keep
+its size below 64 bytes.
+
+```cpp
+// HealthComponent.hpp
+#pragma once
+
+namespace demo
+{
+
+struct alignas(16) HealthComponent
+{
+    int hp;
+};
+static_assert(sizeof(HealthComponent) <= 64);
+
+} // namespace demo
+```
+
+Add the component to an entity to register its storage automatically:
+
+```cpp
+x2d::Entity e = world.CreateEntity();
+world.AddComponent<demo::HealthComponent>(e, {100});
+```
+
+## Creating and Registering Systems
+
+A system derives from `x2d::ISystem`. Register it with the application using a
+signature describing the components it requires.
+
+```cpp
+class DamageSystem final : public x2d::ISystem
+{
+public:
+    void Update(const x2d::View& view) override
+    {
+        if (m_World == nullptr)
+        {
+            return;
+        }
+        for (std::size_t i = 0; i < view.count; ++i)
+        {
+            const x2d::Entity e = view.entities[i];
+            auto& health = m_World->GetComponent<demo::HealthComponent>(e);
+            health.hp -= 1;
+        }
+    }
+};
+```
+
+Register the system and assign its signature:
+
+```cpp
+x2d::Signature damageSig{};
+damageSig.set(x2d::ComponentTypeId<demo::HealthComponent>());
+app.RegisterSystem<DamageSystem>(x2d::ESystemPhase::eSystemPhase_Update,
+                                 damageSig);
+```
+
 ## Example
 
 The `examples/platformer` directory demonstrates a small game built with X2D. It registers input, camera, and map systems and spawns a simple player entity. Use it as a reference for your own projects.
